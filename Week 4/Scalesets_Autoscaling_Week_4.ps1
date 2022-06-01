@@ -3,7 +3,7 @@ $myResourceGroup = 's1161088'
 $myLocation = 'westeurope'
 $myScaleSet = 'myScaleSetTax'
 
-$myRuleScaleOut = New-AzureRmAutoscaleRule `
+$myRuleScaleOut = New-AzAutoscaleRule `
   -MetricName "Percentage CPU" `
   -MetricResourceId /subscriptions/$mySubscriptionId/resourceGroups/$myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/$myScaleSet `
   -TimeGrain 00:01:00 `
@@ -16,7 +16,7 @@ $myRuleScaleOut = New-AzureRmAutoscaleRule `
   -ScaleActionValue 3 `
   -ScaleActionCooldown 00:05:00
 
-$myRuleScaleIn = New-AzureRmAutoscaleRule `
+$myRuleScaleIn = New-AzAutoscaleRule `
   -MetricName "Percentage CPU" `
   -MetricResourceId /subscriptions/$mySubscriptionId/resourceGroups/$myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/$myScaleSet `
   -Operator "LessThan" `
@@ -29,14 +29,14 @@ $myRuleScaleIn = New-AzureRmAutoscaleRule `
   -ScaleActionScaleType "ChangeCount" `
   -ScaleActionValue 1
 
-$myScaleProfile = New-AzureRmAutoscaleProfile `
+$myScaleProfile = New-AzAutoscaleProfile `
   -DefaultCapacity 2  `
   -MaximumCapacity 10 `
   -MinimumCapacity 2 `
   -Rule $myRuleScaleOut,$myRuleScaleIn `
   -Name "autoprofile"
 
-Add-AzureRmAutoscaleSetting `
+Add-AzAutoscaleSetting `
   -Location $myLocation `
   -Name "autosetting" `
   -ResourceGroup $myResourceGroup `
